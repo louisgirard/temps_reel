@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -x
+
+gnome-terminal sh -c "cd ./software/simulateur/dist/Debug/GNU-Linux/ && ./simulateur"
+gnome-terminal sh -c "cd ./software/monitor/monitor/ && ./monitor"
+cd ./software/raspberry/superviseur-robot/dist/Debug__PC_/GNU-Linux/ || exit 1;
+
+sudo ./superviseur-robot
+
