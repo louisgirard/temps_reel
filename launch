@@ -1,10 +1,13 @@
 #!/bin/sh
 
+
+_path="./temps_reel/"
+
 set -x
 
-gnome-terminal sh -c "cd ./software/simulateur/dist/Debug/GNU-Linux/ && ./simulateur"
-gnome-terminal sh -c "cd ./software/monitor/monitor/ && ./monitor"
-cd ./software/raspberry/superviseur-robot/dist/Debug__PC_/GNU-Linux/ || exit 1;
+gnome-terminal sh -c "cd $_path/software/simulateur/dist/Debug/GNU-Linux/ && ./simulateur"
+gnome-terminal sh -c "cd $_path/software/monitor/monitor/ && ./monitor"
+cd $_path/software/raspberry/superviseur-robot/dist/Debug__PC_/GNU-Linux/ || exit 1;
 
 sudo ./superviseur-robot
 
