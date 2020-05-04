@@ -64,10 +64,12 @@ private:
     /**********************************************************************/
     ComMonitor monitor;
     ComRobot robot;
+    Camera camera;
     int robotStarted = 0;
     int move = MESSAGE_ROBOT_STOP;
     int counterSendToRobot = 0;
     int watchdog = 0;
+    int cameraStarted = 0;
     
     /**********************************************************************/
     /* Tasks                                                              */
@@ -79,6 +81,8 @@ private:
     RT_TASK th_startRobot;
     RT_TASK th_move;
     RT_TASK th_checkBattery;
+    RT_TASK th_watchdog;
+    RT_TASK th_startCamera;
     
     /**********************************************************************/
     /* Mutex                                                              */
@@ -89,6 +93,8 @@ private:
     RT_MUTEX mutex_move;
     RT_MUTEX mutex_sendToRobot;
     RT_MUTEX mutex_watchdog;
+    RT_MUTEX mutex_camera;
+    RT_MUTEX mutex_cameraStarted;
 
     /**********************************************************************/
     /* Semaphores                                                         */
@@ -97,6 +103,7 @@ private:
     RT_SEM sem_openComRobot;
     RT_SEM sem_serverOk;
     RT_SEM sem_startRobot;
+    RT_SEM sem_startCamera;
 
     /**********************************************************************/
     /* Message queues                                                     */
@@ -146,6 +153,13 @@ private:
     
     void closeCommunicationRobot();
     
+    void startWatchdog();
+    
+    void Watchdog(void* arg);
+    
+    void StartCamera(void* arg);
+    
+    void GetImage(void* arg);
     /**********************************************************************/
     /* Queue services                                                     */
     /**********************************************************************/
