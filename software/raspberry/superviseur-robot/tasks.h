@@ -83,6 +83,8 @@ private:
     RT_TASK th_checkBattery;
     RT_TASK th_watchdog;
     RT_TASK th_startCamera;
+    RT_TASK th_getImage;
+    RT_TASK th_restart;
     
     /**********************************************************************/
     /* Mutex                                                              */
@@ -104,6 +106,7 @@ private:
     RT_SEM sem_serverOk;
     RT_SEM sem_startRobot;
     RT_SEM sem_startCamera;
+    RT_SEM sem_restart;
 
     /**********************************************************************/
     /* Message queues                                                     */
@@ -160,6 +163,8 @@ private:
     void StartCamera(void* arg);
     
     void GetImage(void* arg);
+    
+    void Restart(void* arg);
     /**********************************************************************/
     /* Queue services                                                     */
     /**********************************************************************/
