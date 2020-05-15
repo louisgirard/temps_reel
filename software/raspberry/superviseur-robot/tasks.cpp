@@ -354,6 +354,12 @@ void Tasks::ReceiveFromMonTask(void *arg) {
             rt_mutex_release(&mutex_move);
         } else if (msgRcv->CompareID(MESSAGE_CAM_OPEN)){            
             rt_sem_v(&sem_startCamera);
+        } else if (msgRcv->CompareID(MESSAGE_ROBOT_RESET)) {
+            sendToRobot(robot.Reset());
+
+            rt_mutex_acquire(&mutex_robotStarted, TM_INFINITE);
+            robotStarted = 0;
+            rt_mutex_release(&mutex_robotStarted);
         }
         delete(msgRcv); // mus be deleted manually, no consumer
     }
@@ -519,13 +525,14 @@ void Tasks::CheckBattery(void *arg){
 }
 
 Message* Tasks::sendToRobot(Message* msg){
+    rt_mutex_acquire(&mutex_sendToRobot, TM_INFINITE);
     rt_mutex_acquire(&mutex_robot, TM_INFINITE);
     Message* reponse = robot.Write(msg);
     rt_mutex_release(&mutex_robot);
     
-    rt_mutex_acquire(&mutex_sendToRobot, TM_INFINITE);
-    if(reponse->CompareID(MESSAGE_ANSWER_COM_ERROR) || reponse->CompareID(MESSAGE_ANSWER_ROBOT_TIMEOUT)){
+    if(reponse->CompareID(MESSAGE_ANSWER_ROBOT_ERROR) || reponse->CompareID(MESSAGE_ANSWER_ROBOT_TIMEOUT) || reponse->CompareID(MESSAGE_ANSWER_ROBOT_UNKNOWN_COMMAND)){
         counterSendToRobot++;
+        Logger::log("sendToRobot") << "Compteur Send to Robot = " << counterSendToRobot << endl << flush;
     }else{
         counterSendToRobot = 0;
     }

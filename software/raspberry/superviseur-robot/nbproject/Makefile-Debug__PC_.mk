@@ -42,7 +42,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/lib/img.o \
 	${OBJECTDIR}/lib/messages.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/tasks.o
+	${OBJECTDIR}/tasks.o \
+	${OBJECTDIR}/lib/Logger.o
 
 
 # C Compiler Flags
@@ -108,6 +109,11 @@ ${OBJECTDIR}/tasks.o: tasks.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_WITH_TRACE_ -D__FOR_PC__ -D__SIMULATION__ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/mercury `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tasks.o tasks.cpp
+
+${OBJECTDIR}/lib/Logger.o: lib/Logger.cpp
+	${MKDIR} -p ${OBJECTDIR}/lib
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_WITH_TRACE_ -D__FOR_PC__ -D__SIMULATION__ -D__WITH_ARUCO__ -I./ -I./lib -I/usr/xenomai/include -I/usr/xenomai/include/mercury `pkg-config --cflags opencv`   -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/Logger.o lib/Logger.cpp
 
 # Subprojects
 .build-subprojects:
