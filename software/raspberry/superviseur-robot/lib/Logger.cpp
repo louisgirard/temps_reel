@@ -5,7 +5,7 @@
 #define WHITELIST 2
 #define NONE 3
 
-int Logger::mode = WHITELIST;
+int Logger::mode = ALL;
 
 std::list<std::string> Logger::createBlacklist() {
 	std::list<std::string> list;
@@ -17,7 +17,7 @@ std::list<std::string> Logger::createBlacklist() {
 std::list<std::string> Logger::createWhitelist() {
 	std::list<std::string> list;
 	//list.push_back("default");
-	list.push_back("Watchdog");
+	list.push_back("sendToRobot");
 	return list;
 }
 
